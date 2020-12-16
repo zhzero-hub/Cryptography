@@ -7,7 +7,7 @@
 <script>
 import {mapState, mapMutations} from 'vuex'
 export default {
-  name: "header",
+  name: "header1",
   methods: {
     //左侧栏放大缩小
     ...mapMutations(['setBarCollapse']),

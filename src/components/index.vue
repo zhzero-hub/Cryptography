@@ -2,17 +2,16 @@
 <template>
   <el-container>
     <el-header>
-      <header1></header1>
+      <topHeader></topHeader>
     </el-header>
     <el-container>
-      <el-aside width="200px">
+      <el-aside width="auto">
         <main-left></main-left>
       </el-aside>
       <el-container>
-        <el-main>
-          <h1>首页</h1>
-          <el-button @click="jumpKnapSack">背包密码体制</el-button>
-          <el-button @click="jumpRabin">Rabin密码体制</el-button>
+        <el-main class="main">
+          <navigator></navigator>
+          <router-view></router-view>
         </el-main>
         <el-footer>Footer</el-footer>
       </el-container>
@@ -23,12 +22,14 @@
 <script>
 import mainLeft from "@/components/mainLeft";
 import header from "@/components/header";
+import navigator from "@/components/navigator";
 
 export default {
   name: "index",
   components: {
-    header1: header,
+    topHeader: header,
     mainLeft: mainLeft,
+    navigator: navigator
   },
   methods: {
     jumpKnapSack() {
@@ -41,6 +42,13 @@ export default {
 }
 </script>
 
-<style scoped>
-
+<style>
+.main {
+  display: block;
+  flex: 1;
+  flex-basis: auto;
+  overflow: auto;
+  box-sizing: border-box;
+  padding: 30px;
+}
 </style>

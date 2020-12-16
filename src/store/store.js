@@ -9,8 +9,8 @@ export default new Vuex.Store({
         menu: [
             {
                 index: '1',
-                title: '背包密码体制',
-                icon: 'el-icon-location',
+                title: ' 背包密码体制',
+                icon: 'el-icon-shopping-bag-1',
                 content: [
                     {
                         item: '背包密码体制介绍',
@@ -24,7 +24,8 @@ export default new Vuex.Store({
             },
             {
                 index: '2',
-                title: 'Rabin密码体制',
+                title: ' Rabin密码体制',
+                icon: 'el-icon-position',
                 content: [
                     {
                         item: 'Rabin密码体制介绍',
