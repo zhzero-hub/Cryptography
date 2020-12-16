@@ -11,9 +11,14 @@ const router = new Router({
           component: () => import('@/components/index')
       },
       {
-          path: '/knapsack',
+          path: '/knapsack',//背包密码体制
           name: 'knapsack',
           component: () => import('@/components/knapsack')
+      },
+      {
+          path: '/rabin',//rabin密码体制
+          name: 'rabin',
+          component: () => import('@/components/rabin')
       }
     ]
 })

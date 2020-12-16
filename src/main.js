@@ -14,6 +14,7 @@ Vue.use(router)
 Vue.config.productionTip = false
 Vue.prototype.bus = new Vue()
 Vue.prototype.$axios = axios
+/* global BigInt */
 
 
 new Vue({
@@ -24,3 +25,7 @@ new Vue({
   components: { App },
   template: '<App/>'
 })
+
+BigInt.prototype.toJSON = function () {
+  return this.toString()
+}

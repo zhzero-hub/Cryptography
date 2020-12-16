@@ -1,15 +1,18 @@
 <template>
   <div class="hello">
     <h1>Knapsack</h1>
-    <h1>{{ message }}</h1>
+    <h2>{{ message }}</h2>
     <el-button @click="encode">加密</el-button>
     <el-button @click="decode">解密</el-button>
-    <template v-if="encodedMessage !== ''">
-      <h2>{{ encodedMessage }}</h2>
-    </template>
-    <template v-else-if="decodedMessage !== ''">
-      <h2>{{ decodedMessage }}}</h2>
-    </template>
+    <div v-if="encodedMessage !== ''">
+      加密密文：{{ encodedMessage }}
+    </div>
+    <div v-if="decodedMessage !== ''">
+      解密明文：{{ decodedMessage }}
+    </div>
+    <div v-if="publicKey !== ''">
+      密钥：{{ publicKey }}
+    </div>
   </div>
 </template>
 
@@ -22,6 +25,7 @@ export default {
   data() {
     return {
       message: 'Hello World',
+      publicKey: '',
       decoder: '',
       encoder: '',
       encodedMessage: '',
@@ -31,16 +35,22 @@ export default {
   created() {
     this.decoder = new Decoder()
     this.encoder = new Encoder(this.decoder.publicKey)
+    this.publicKey = this.decoder.publicKey
   },
   methods: {
     encode() {
-      this.encodedMessage = this.encoder.encode(this.message);
+      if(this.message !== '') {
+        this.encodedMessage = this.encoder.encode(this.message);
+      }
     },
     decode() {
-      this.decodedMessage = this.decoder.decode(this.encodedMessage);
+      if(this.encodedMessage !== '') {
+        this.decodedMessage = this.decoder.decode(this.encodedMessage);
+      }
     }
   }
 }
+
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
