@@ -5,7 +5,7 @@
       <topHeader></topHeader>
     </el-header>
     <el-container>
-      <el-aside width="auto">
+      <el-aside>
         <main-left></main-left>
       </el-aside>
       <el-container>
@@ -50,5 +50,12 @@ export default {
   overflow: auto;
   box-sizing: border-box;
   padding: 30px;
+}
+.el-aside {
+  width: auto;
+  overflow: auto;
+  box-sizing: border-box;
+  flex-shrink: 0;
+  padding: 10px;
 }
 </style>

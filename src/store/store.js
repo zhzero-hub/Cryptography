@@ -38,6 +38,19 @@ export default new Vuex.Store({
                 ],
             },
         ],
+        knapsackItems: [{
+            index: '1',
+            title: '公钥管理',
+            path: '/publicKeyManage'
+        },
+        {
+            index: '2',
+            title: '私钥管理',
+            path: '/publicKeyManage'
+        },
+        ],
+        publicKey: [295, 592, 301, 14, 28, 353, 120, 236],
+
     },
     mutations: {
         setBarCollapse(state) {

@@ -13,7 +13,12 @@ const router = new Router({
                 {
                     path: '/knapsack',//背包密码体制
                     name: 'knapsack',
-                    component: () => import('@/core/knapsack')
+                    component: () => import('@/core/knapsack'),
+                    children: [{
+                        path: '/publicKeyManage',
+                        name: 'publicKeyManage',
+                        component: () => import('@/components/publicKeyManage')
+                    }]
                 },
                 {
                     path: '/rabin',//rabin密码体制
