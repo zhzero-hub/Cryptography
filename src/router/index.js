@@ -15,10 +15,20 @@ const router = new Router({
                     name: 'knapsack',
                     component: () => import('@/core/knapsack'),
                     children: [{
+                       path: '/primeManage',
+                       name: 'primeManage',
+                       component: () => import('@/components/primeManage')
+                    },
+                    {
                         path: '/publicKeyManage',
                         name: 'publicKeyManage',
                         component: () => import('@/components/publicKeyManage')
-                    }]
+                    },
+                    {
+                        path: '/secretKeyManage',
+                        name: 'secretKeyManage',
+                        component: () => import('@/components/secretKeyManage')
+                        }]
                 },
                 {
                     path: '/rabin',//rabin密码体制

@@ -40,17 +40,30 @@ export default new Vuex.Store({
         ],
         knapsackItems: [{
             index: '1',
+            title: '素数管理',
+            path: '/primeManage'
+        },
+        {
+            index: '2',
             title: '公钥管理',
             path: '/publicKeyManage'
         },
         {
-            index: '2',
+            index: '3',
             title: '私钥管理',
-            path: '/publicKeyManage'
+            path: '/secretKeyManage'
         },
         ],
         publicKey: [295, 592, 301, 14, 28, 353, 120, 236],
-
+        usedPublicKey: [],
+        secretKey: [2n, 7n, 11n, 21n, 42n, 89n, 180n, 354n],
+        usedSecretKey: [],
+        q: 881n,
+        qString: '881',
+        r: 588n,
+        rString: '588',
+        encodedMessage: '',
+        decodedMessage: ''
     },
     mutations: {
         setBarCollapse(state) {

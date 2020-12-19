@@ -1,28 +1,27 @@
 <template>
   <div class="hello">
       <div class="input1" style="line-height: 50px">
-        <div class="inputMessage">输入内容</div>
+        <div class="inputMessage">加密内容</div>
         <el-input type="textarea"
                   :autosize="{ minRows: 2, maxRows: 4}"
                   placeholder="请输入内容"
-                  v-model="message">
+                  v-model="message"
+                  style="border-radius: 4px;
+                         box-shadow: 0 2px 12px 0 rgba(0, 0, 0, 0.1)">
           <el-button @click="encode" type="primary" slot="append">加密</el-button>
         </el-input>
+        <div class="button">
+          <el-button @click="encode" type="primary">加密</el-button>
+          <el-button @click="decode" type="primary">解密</el-button>
+        </div>
       </div>
-    <el-tabs @tab-click="handleClick">
+    <el-tabs @tab-click="handleClick" style="padding-bottom: 20px">
       <template v-for="(item , index) in knapsackItems">
         <el-tab-pane :label="item.title" :name="item.title" :key="index">{{ item.title }}</el-tab-pane>
       </template>
     </el-tabs>
-
-    <router-view></router-view>
-
-    <div class="button">
-      <el-button @click="encode" type="primary">加密</el-button>
-      <el-button @click="decode" type="primary">解密</el-button>
-    </div>
-    <div class="">
-
+    <div style="box-shadow: 0 2px 4px rgba(0, 0, 0, .12), 0 0 6px rgba(0, 0, 0, .04); padding: 20px">
+      <router-view></router-view>
     </div>
   </div>
 </template>
@@ -39,16 +38,27 @@ export default {
       message: 'Hello World',
       decoder: '',
       encoder: '',
-      encodedMessage: '',
-      decodedMessage: '',
-      q: 881n,
-      r: 588n,
-      secretKey: [2n, 7n, 11n, 21n, 42n, 89n, 180n, 354n],
       crackBaseDecoder: null,
     }
   },
   computed: {
-    ...mapState(['publicKey' , 'knapsackItems']),
+    ...mapState(['publicKey' , 'secretKey' , 'usedPublicKey' , 'usedSecretKey' , 'q' , 'r' , 'knapsackItems']),
+    encodedMessage: {
+      get() {
+        return this.$store.state.encodedMessage
+      },
+      set(val) {
+        this.$store.state.encodedMessage = val
+      }
+    },
+    decodedMessage: {
+      get() {
+        return this.$store.state.decodedMessage
+      },
+      set(val) {
+        this.$store.state.decodedMessage = val
+      }
+    }
   },
   methods: {
     handleClick(tab) {

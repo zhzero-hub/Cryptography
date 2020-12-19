@@ -1,10 +1,10 @@
 <template>
   <div style="text-align: center">
-    <el-transfer class="publicKey"
+    <el-transfer class="secretKey"
                  style="text-align: left; display: inline-block"
                  v-model="value4"
                  filterable
-                 :titles="['备选公钥', '公钥列表']"
+                 :titles="['备选私钥', '私钥列表']"
                  :button-texts="['移除', '添加']"
                  :format="{
                     noChecked: '${total}',
@@ -12,37 +12,35 @@
                  @change="handleChange"
                  :data="data">
       <span slot-scope="{ option }">"{{ option.key }}": {{ option.label }}</span>
-      <div class="inputPublicKey" slot="left-footer" v-show="addPublicKeyState">
+      <div class="inputSecretKey" slot="left-footer" v-show="addSecretKeyState">
         <el-input id="inputKey1"
                   placeholder="请输入内容"
-                  v-model="inputPublicKey"
+                  v-model="inputSecretKey"
                   clearable>
-          <el-button class="transfer-footer-cancel" type="text" @click="cancelPublicKey"
+          <el-button class="transfer-footer-cancel" type="text" @click="cancelSecretKey"
                      slot="prepend" >
             <i class="el-icon-circle-close"></i>
           </el-button>
-          <el-button class="transfer-footer-affirm" type="text" @click="addPublicKey"
+          <el-button class="transfer-footer-affirm" type="text" @click="addSecretKey"
                      slot="suffix">确认</el-button>
         </el-input>
       </div>
-      <el-button class="transfer-footer" slot="left-footer" size="small" type="primary" @click="showInputPublicKey">添加</el-button>
-      <el-button class="transfer-footer" slot="left-footer" size="small" type="danger" @click="deletePublicKey">删除</el-button>
-      <el-button class="transfer-footer" slot="right-footer" size="small" type="primary">添加</el-button>
+      <el-button class="transfer-footer" slot="left-footer" size="small" type="primary" @click="showInputSecretKey">添加</el-button>
+      <el-button class="transfer-footer" slot="left-footer" size="small" type="danger" @click="deleteSecretKey">删除</el-button>
     </el-transfer>
   </div>
 </template>
-
 <script>
-import {mapState} from 'vuex'
+import {mapState} from "vuex";
 
 export default {
-  name: "publicKeyManage",
+  name: "secretKeyManage",
   data() {
     return {
       data: [],
       value4: [],
-      addPublicKeyState: false,
-      inputPublicKey: '',
+      addSecretKeyState: false,
+      inputSecretKey: '',
       labelPosition: 'left',
       checked: false,
     }
@@ -51,58 +49,58 @@ export default {
     this.generateData()
   },
   computed: {
-    ...mapState(['publicKey']),
-    usedPublicKey: {
+    ...mapState(['secretKey']),
+    usedSecretKey: {
       get() {
-        return this.$store.state.usedPublicKey
+        return this.$store.state.usedSecretKey
       },
       set(val) {
-        this.$store.state.usedPublicKey = val
+        this.$store.state.usedSecretKey = val
       }
     }
   },
   methods: {
     handleChange(value) {
       //console.log(value)
-      this.usedPublicKey = []
+      this.usedSecretKey = []
       for(let i in value) {
-        this.usedPublicKey.push(this.publicKey[value[i] - 1])
+        this.usedSecretKey.push(this.secretKey[value[i] - 1])
       }
-      //console.log(this.usedPublicKey)
+      //console.log(this.usedSecretKey)
     },
-    showInputPublicKey() {
-      this.addPublicKeyState = !this.addPublicKeyState
+    showInputSecretKey() {
+      this.addSecretKeyState = !this.addSecretKeyState
     },
-    cancelPublicKey() {
-      this.addPublicKeyState = false
-      this.inputPublicKey = ''
+    cancelSecretKey() {
+      this.addSecretKeyState = false
+      this.inputSecretKey = ''
     },
-    addPublicKey() {
-      if(this.inputPublicKey === '') {
+    addSecretKey() {
+      if(this.inputSecretKey === '') {
         this.$message.error('添加失败')
         return
       }
-      this.publicKey.push(this.inputPublicKey)
+      this.secretKey.push(this.inputSecretKey)
       this.data.push({
         key: this.data.length + 1,
-        label: this.inputPublicKey.toString(),
+        label: this.inputSecretKey.toString(),
         disabled: false,
       })
-      this.inputPublicKey = ''
-      this.addPublicKeyState = false
+      this.inputSecretKey = ''
+      this.addSecretKeyState = false
       this.$message({
         message: '添加成功',
         type: "success"
       })
     },
-    deletePublicKey() {
-      console.log(this.usedPublicKey)
+    deleteSecretKey() {
+      console.log(this.usedSecretKey)
     },
     generateData() {
-      for (let i = 0; i < this.publicKey.length;i ++) {
+      for (let i = 0; i < this.secretKey.length;i ++) {
         this.data.push({
           key: i + 1,
-          label: this.publicKey[i].toString(),
+          label: this.secretKey[i].toString(),
           disabled: false
         });
       }
@@ -117,13 +115,6 @@ export default {
   text-align: center;
   padding: 10px;
   color: red;
-}
-.el-transfer-panel__body {
-  height: 250px;
-}
-.el-transfer-panel__list.is-filterable {
-  height: 200px;
-  padding-top: 0;
 }
 .el-transfer-panel .el-transfer-panel__footer {
   height: 40px;
