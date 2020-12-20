@@ -10,6 +10,7 @@
   "dependencies": {
     "BigInt": "^5.5.3",
     "axios": "^0.21.0",
+    "biginteger": "^1.0.3",
     "core-js": "^3.6.5",
     "element-ui": "^2.14.1",
     "merkle-hellman": "^2.0.0",

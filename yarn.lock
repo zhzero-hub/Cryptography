@@ -1972,6 +1972,11 @@ bigint-buffer@^1.1.5:
   dependencies:
     bindings "^1.3.0"
 
+biginteger@^1.0.3:
+  version "1.0.3"
+  resolved "https://registry.yarnpkg.com/biginteger/-/biginteger-1.0.3.tgz#111c682070b852d0677a1621fd33452aab674607"
+  integrity sha1-ERxoIHC4UtBnehYh/TNFKqtnRgc=
+
 binary-extensions@^1.0.0:
   version "1.13.1"
   resolved "https://registry.yarnpkg.com/binary-extensions/-/binary-extensions-1.13.1.tgz#598afe54755b2868a5330d2aff9d4ebb53209b65"

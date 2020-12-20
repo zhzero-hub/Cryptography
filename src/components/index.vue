@@ -13,9 +13,8 @@
           <navigator></navigator>
           <router-view></router-view>
         </el-main>
-        <el-divider>加密 / 解密结果</el-divider>
         <el-footer>
-          <footer1></footer1>
+
         </el-footer>
       </el-container>
     </el-container>
@@ -26,7 +25,6 @@
 import mainLeft from "@/components/mainLeft";
 import header from "@/components/header";
 import navigator from "@/components/navigator";
-import footer from "@/components/footer";
 
 export default {
   name: "index",
@@ -34,7 +32,6 @@ export default {
     topHeader: header,
     mainLeft: mainLeft,
     navigator: navigator,
-    footer1: footer,
   },
   methods: {
     jumpKnapsack() {

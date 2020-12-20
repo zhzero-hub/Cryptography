@@ -12,26 +12,26 @@
                  @change="handleChange"
                  :data="data">
       <span slot-scope="{ option }">"{{ option.key }}": {{ option.label }}</span>
-      <div class="inputSecretKey" slot="left-footer" v-show="addSecretKeyState">
-        <el-input id="inputKey1"
-                  placeholder="请输入内容"
-                  v-model="inputSecretKey"
-                  clearable>
-          <el-button class="transfer-footer-cancel" type="text" @click="cancelSecretKey"
-                     slot="prepend" >
-            <i class="el-icon-circle-close"></i>
-          </el-button>
-          <el-button class="transfer-footer-affirm" type="text" @click="addSecretKey"
-                     slot="suffix">确认</el-button>
-        </el-input>
-      </div>
-      <el-button class="transfer-footer" slot="left-footer" size="small" type="primary" @click="showInputSecretKey">添加</el-button>
-      <el-button class="transfer-footer" slot="left-footer" size="small" type="danger" @click="deleteSecretKey">删除</el-button>
     </el-transfer>
+    <div class="inputSecretKey" slot="left-footer" v-show="addSecretKeyState">
+      <el-input id="inputKey1"
+                placeholder="请输入内容"
+                v-model="inputSecretKey"
+                clearable>
+        <el-button class="transfer-footer-cancel" type="text" @click="cancelSecretKey"
+                   slot="prepend" >
+          <i class="el-icon-circle-close"></i>
+        </el-button>
+        <el-button class="transfer-footer-affirm" type="text" @click="addSecretKey"
+                   slot="suffix">确认</el-button>
+      </el-input>
+    </div>
+    <el-button class="transfer-footer" size="small" type="primary" @click="showInputSecretKey">添加</el-button>
+    <el-button class="transfer-footer" size="small" type="danger" @click="deleteSecretKey">删除</el-button>
   </div>
 </template>
 <script>
-import {mapState} from "vuex";
+const BigInteger = require('biginteger').BigInteger;
 
 export default {
   name: "secretKeyManage",
@@ -49,7 +49,14 @@ export default {
     this.generateData()
   },
   computed: {
-    ...mapState(['secretKey']),
+    secretKey: {
+      get() {
+        return this.$store.state.secretKey
+      },
+      set(val) {
+        this.$store.state.secretKey = val
+      }
+    },
     usedSecretKey: {
       get() {
         return this.$store.state.usedSecretKey
@@ -80,7 +87,8 @@ export default {
         this.$message.error('添加失败')
         return
       }
-      this.secretKey.push(this.inputSecretKey)
+      this.secretKey.push(BigInteger(this.inputSecretKey.toString()))
+      console.log(this.usedSecretKey)
       this.data.push({
         key: this.data.length + 1,
         label: this.inputSecretKey.toString(),
@@ -92,11 +100,13 @@ export default {
         message: '添加成功',
         type: "success"
       })
+      this.generateData()
     },
     deleteSecretKey() {
       console.log(this.usedSecretKey)
     },
     generateData() {
+      this.data = []
       for (let i = 0; i < this.secretKey.length;i ++) {
         this.data.push({
           key: i + 1,
@@ -115,6 +125,13 @@ export default {
   text-align: center;
   padding: 10px;
   color: red;
+}
+.el-transfer-panel__body {
+  height: 300px;
+}
+.el-transfer-panel__list.is-filterable {
+  height: 250px;
+  padding-top: 0;
 }
 .el-transfer-panel .el-transfer-panel__footer {
   height: 40px;

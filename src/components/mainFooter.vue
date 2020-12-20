@@ -1,5 +1,6 @@
 <template>
   <div style="padding-bottom: 100px">
+    <el-divider>加密 / 解密结果</el-divider>
     <el-tabs id="message" type="border-card">
       <div style="text-align: right; height: 0">
         <el-select v-model="value">
@@ -42,7 +43,7 @@
 import {mapState} from 'vuex'
 
 export default {
-  name: "footer",
+  name: "mainFooter",
   data() {
     return {
       options: [{

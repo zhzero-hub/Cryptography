@@ -15,24 +15,30 @@
           <el-button @click="decode" type="primary">解密</el-button>
         </div>
       </div>
-    <el-tabs @tab-click="handleClick" style="padding-bottom: 20px">
-      <template v-for="(item , index) in knapsackItems">
-        <el-tab-pane :label="item.title" :name="item.title" :key="index">{{ item.title }}</el-tab-pane>
-      </template>
-    </el-tabs>
     <div style="box-shadow: 0 2px 4px rgba(0, 0, 0, .12), 0 0 6px rgba(0, 0, 0, .04); padding: 20px">
+      <el-tabs @tab-click="handleClick" style="padding-bottom: 20px">
+        <template v-for="(item , index) in knapsackItems">
+          <el-tab-pane :label="item.title" :name="item.title" :key="index">{{ item.title }}</el-tab-pane>
+        </template>
+      </el-tabs>
       <router-view></router-view>
     </div>
+    <mainFooter></mainFooter>
   </div>
 </template>
 
 <script>
 import {
+  // eslint-disable-next-line no-unused-vars
   Decoder, Encoder, Cracker
 } from 'merkle-hellman'
 import {mapState} from 'vuex'
+import mainFooter from "@/components/mainFooter"
 
 export default {
+  components: {
+    mainFooter: mainFooter
+  },
   data() {
     return {
       message: 'Hello World',
@@ -66,7 +72,7 @@ export default {
       this.$router.push(this.knapsackItems[tab.index].path)
     },
     encode() {
-      if(this.message !== '') {
+      /*if(this.message !== '') {
         const originalDecoder = Decoder.from({secretKey: this.secretKey , secretPair: {q: this.q , r: this.r}});
         const encoder = new Encoder(originalDecoder.publicKey);
         const cracker = new Cracker();
@@ -83,7 +89,32 @@ export default {
       }
       else {
         this.$message.error('请输入加密信息')
-      }
+      }*/
+      this.$axios({
+        url: `http://zhzero.top:7077/api/knapsack/encrypto`,
+        method: 'post',
+        data: {
+          message: this.message,
+          publicKey: null,
+          secretKey: this.usedSecretKey,
+          t: this.t,
+          k: this.k,
+          n: this.n,
+          date: Date.toLocaleString(),
+          type: "解密"
+        }
+      }).then(res => {
+        console.log(res)
+        if(res.data.code === 200) {
+          this.$message({
+            message: '更新成功',
+            type: 'success'
+          })
+        }
+        else {
+          this.$message.error('加密失败')
+        }
+      })
     },
     decode() {
       if(this.encodedMessage !== '') {
