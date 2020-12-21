@@ -1,6 +1,7 @@
 import VUE from 'vue'
 import Vuex from 'vuex'
 const BigInteger = require('biginteger').BigInteger;
+//const bindings = require('bindings')('addon.node')
 
 VUE.use(Vuex)
 
@@ -53,13 +54,72 @@ export default new Vuex.Store({
             path: '/publicKeyManage'
         },*/
         ],
-        publicKey: [295, 592, 301, 14, 28, 353, 120, 236],
+        publicKey: [],
         usedPublicKey: [],
-        secretKey: [BigInteger(2) , BigInteger(7) , BigInteger(11) , BigInteger(21) ,
-        BigInteger(42) , BigInteger(89) , BigInteger(180) , BigInteger(354)],
+        secretKey: [{
+            key: BigInteger(1),
+            used: true
+        }, {
+            key: BigInteger(3),
+            used: true
+        },  {
+            key: BigInteger(5),
+            used: true
+        }, {
+            key: BigInteger(11),
+            used: true
+        }, {
+            key: BigInteger(21),
+            used: true
+        }, {
+            key: BigInteger(44),
+            used: true
+        }, {
+            key: BigInteger(87),
+            used: true
+        }, {
+            key: BigInteger(175),
+            used: true
+        }, {
+            key: BigInteger(349),
+            used: true
+        }, {
+            key: BigInteger(701),
+            used: true
+        }, {
+            key: BigInteger(1403),
+            used: true
+        }, {
+            key: BigInteger(2807),
+            used: true
+        }, {
+            key: BigInteger(5615),
+            used: true
+        }, {
+            key: BigInteger(11231),
+            used: true
+        }, {
+            key: BigInteger(22463),
+            used: true
+        }, {
+            key: BigInteger(44927),
+            used: true
+        }, {
+            key: BigInteger(89855),
+            used: true
+        }, {
+            key: BigInteger(179711),
+            used: true
+        }, {
+            key: BigInteger(359423),
+            used: true
+        }, {
+            key: BigInteger(718847),
+            used: true
+        }],
         usedSecretKey: [],
-        k: BigInteger(881),
-        t: BigInteger(588),
+        k: BigInteger(1437697),
+        t: BigInteger(43),
         n: 2,
         encodedMessage: '',
         decodedMessage: ''
@@ -67,6 +127,9 @@ export default new Vuex.Store({
     mutations: {
         setBarCollapse(state) {
             state.isCollapse = !state.isCollapse
+        },
+        hello() {
+            //bindings.hello()
         }
     },
     actions: {

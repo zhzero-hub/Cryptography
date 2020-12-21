@@ -13,6 +13,7 @@
         <div class="button">
           <el-button @click="encode" type="primary">加密</el-button>
           <el-button @click="decode" type="primary">解密</el-button>
+          <el-button @click="handle" type="primary">测试</el-button>
         </div>
       </div>
     <div style="box-shadow: 0 2px 4px rgba(0, 0, 0, .12), 0 0 6px rgba(0, 0, 0, .04); padding: 20px">
@@ -23,7 +24,58 @@
       </el-tabs>
       <router-view></router-view>
     </div>
-    <mainFooter></mainFooter>
+    <div style="padding-bottom: 100px">
+      <el-divider>加密 / 解密结果</el-divider>
+      <el-tabs id="message" type="border-card">
+        <!--<div style="text-align: right; height: 0">
+          <el-select v-model="value">
+            <el-option
+                v-for="item in options"
+                :key="item.value"
+                :label="item.label"
+                :value="item.value">
+            </el-option>
+          </el-select>
+        </div>-->
+        <el-tab-pane label="加密 / 解密结果">
+          <div style="line-height: 50px">
+              <div v-if="this.returnData.length !== 0">
+                加密信息: {{ this.returnData.encodedMessage }}
+              </div>
+            <div v-if="this.returnData.length !== 0">
+              解密信息: {{ this.returnData.decodedMessage }}
+            </div>
+          </div>
+        </el-tab-pane>
+        <el-tab-pane label="素数配置">
+          <div style="line-height: 50px">
+            <div v-if="this.returnData.length !== 0">
+              k的值为: {{ this.returnData.k }}
+            </div>
+            <div v-if="this.returnData.length !== 0">
+              t的值为: {{ this.returnData.t }}
+            </div>
+            <div v-if="this.returnData.length !== 0">
+              n的值为: {{ this.returnData.n }}
+            </div>
+          </div>
+        </el-tab-pane>
+        <el-tab-pane label="公钥配置">
+          <div style="line-height: 50px">
+            <div v-if="this.returnData.length !== 0">
+              公钥配置: {{ this.returnData.publicKey }}
+            </div>
+          </div>
+        </el-tab-pane>
+        <el-tab-pane label="私钥配置">
+          <div style="line-height: 50px">
+            <div v-if="this.returnData.length !== 0">
+              私钥配置: {{ this.returnData.secretKey }}
+            </div>
+          </div>
+        </el-tab-pane>
+      </el-tabs>
+    </div>
   </div>
 </template>
 
@@ -32,23 +84,34 @@ import {
   // eslint-disable-next-line no-unused-vars
   Decoder, Encoder, Cracker
 } from 'merkle-hellman'
-import {mapState} from 'vuex'
-import mainFooter from "@/components/mainFooter"
+import {mapState , mapMutations} from 'vuex'
+// eslint-disable-next-line no-unused-vars
+import axios from 'axios'
 
 export default {
   components: {
-    mainFooter: mainFooter
+    //mainFooter: mainFooter
   },
   data() {
     return {
+      options: [{
+        value: 1,
+        label: 'Raw json'
+      }, {
+        value: 2,
+        label: 'Message only'
+      }],
+      value: '',
+
       message: 'Hello World',
       decoder: '',
       encoder: '',
       crackBaseDecoder: null,
+      returnData: []
     }
   },
   computed: {
-    ...mapState(['publicKey' , 'secretKey' , 'usedPublicKey' , 'usedSecretKey' , 'q' , 'r' , 'knapsackItems']),
+    ...mapState(['secretKey' , 'k' , 't' , 'n' , 'knapsackItems']),
     encodedMessage: {
       get() {
         return this.$store.state.encodedMessage
@@ -67,6 +130,11 @@ export default {
     }
   },
   methods: {
+    ...mapMutations(['hello']),
+    handle() {
+      // eslint-disable-next-line no-unused-vars
+      console.log(process)
+    },
     handleClick(tab) {
       //console.log(this.knapsackItems[tab.index])
       this.$router.push(this.knapsackItems[tab.index].path)
@@ -90,22 +158,39 @@ export default {
       else {
         this.$message.error('请输入加密信息')
       }*/
+      //const usedSecretKey = []
+      let secretString = "["
+      let i = 0
+      for(;i < this.secretKey.length;i ++) {
+        if(this.secretKey[i].used) {
+          secretString += this.secretKey[i].key.toString()
+          break
+        }
+      }
+      for(i += 1;i < this.secretKey.length;i ++) {
+        if(this.secretKey[i].used) {
+          secretString += ", " + this.secretKey[i].key.toString()
+        }
+      }
+      secretString += "]"
+      console.log(Date.toLocaleString())
       this.$axios({
-        url: `http://zhzero.top:7077/api/knapsack/encrypto`,
-        method: 'post',
+        url: 'knapsack/encrypt',
+        method: "post",
         data: {
           message: this.message,
           publicKey: null,
-          secretKey: this.usedSecretKey,
-          t: this.t,
-          k: this.k,
+          secretKey: secretString,
+          tString: this.t.toString(),
+          kString: this.k.toString(),
           n: this.n,
-          date: Date.toLocaleString(),
+          date: '',
           type: "解密"
         }
       }).then(res => {
-        console.log(res)
         if(res.data.code === 200) {
+          this.returnData = res.data.data
+          console.log(this.returnData)
           this.$message({
             message: '更新成功',
             type: 'success'
@@ -117,7 +202,7 @@ export default {
       })
     },
     decode() {
-      if(this.encodedMessage !== '') {
+      /*if(this.encodedMessage !== '') {
         this.decodedMessage = this.crackBaseDecoder.decode(this.encodedMessage);
         if(this.decodedMessage !== '') {
           this.$message({
@@ -128,7 +213,7 @@ export default {
         else {
           this.$message.error('解密失败')
         }
-      }
+      }*/
     }
   }
 }
@@ -170,5 +255,7 @@ a {
 .publicKey >>> .el-input-group__prepend {
   text-align: center;
 }
-
+.el-tabs--border-card>.el-tabs__content {
+  padding: 15px 15px 55px 15px;
+}
 </style>

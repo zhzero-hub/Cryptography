@@ -1,18 +1,7 @@
 <template>
   <div style="text-align: center">
-    <el-transfer class="secretKey"
-                 style="text-align: left; display: inline-block"
-                 v-model="value4"
-                 filterable
-                 :titles="['备选私钥', '私钥列表']"
-                 :button-texts="['移除', '添加']"
-                 :format="{
-                    noChecked: '${total}',
-                    hasChecked: '${checked}/${total}'}"
-                 @change="handleChange"
-                 :data="data">
-      <span slot-scope="{ option }">"{{ option.key }}": {{ option.label }}</span>
-    </el-transfer>
+    <el-button class="transfer-footer" size="small" type="primary" @click="showInputSecretKey">添加</el-button>
+    <el-button class="transfer-footer" size="small" type="danger" @click="deleteSecretKey">删除</el-button>
     <div class="inputSecretKey" slot="left-footer" v-show="addSecretKeyState">
       <el-input id="inputKey1"
                 placeholder="请输入内容"
@@ -26,8 +15,21 @@
                    slot="suffix">确认</el-button>
       </el-input>
     </div>
-    <el-button class="transfer-footer" size="small" type="primary" @click="showInputSecretKey">添加</el-button>
-    <el-button class="transfer-footer" size="small" type="danger" @click="deleteSecretKey">删除</el-button>
+    <div>
+      <el-transfer class="secretKey"
+                   style="text-align: left; display: inline-block"
+                   v-model="value"
+                   filterable
+                   :titles="['备选私钥', '私钥列表']"
+                   :button-texts="['移除', '添加']"
+                   :format="{
+                    noChecked: '${total}',
+                    hasChecked: '${checked}/${total}'}"
+                    @change="handleChange"
+                   :data="data">
+        <span slot-scope="{ option }">密钥{{ option.key }}: {{ option.label }}</span>
+      </el-transfer>
+    </div>
   </div>
 </template>
 <script>
@@ -38,7 +40,7 @@ export default {
   data() {
     return {
       data: [],
-      value4: [],
+      value: [],
       addSecretKeyState: false,
       inputSecretKey: '',
       labelPosition: 'left',
@@ -67,13 +69,34 @@ export default {
     }
   },
   methods: {
-    handleChange(value) {
-      //console.log(value)
-      this.usedSecretKey = []
-      for(let i in value) {
-        this.usedSecretKey.push(this.secretKey[value[i] - 1])
+    generateData() {
+      this.data = []
+      this.value = []
+      for (let i = 0; i < this.secretKey.length;i ++) {
+        this.data.push({
+          key: i + 1,
+          label: this.secretKey[i].key.toString(),
+          disabled: false,
+        })
+        if(this.secretKey[i].used) {
+          this.value.push(i + 1)
+        }
       }
-      //console.log(this.usedSecretKey)
+    },
+    // eslint-disable-next-line no-unused-vars
+    handleChange(value , direction , moved) {
+      console.log(value , direction , moved)
+      if(direction === "left") {
+        for(let index in moved) {
+          this.secretKey[moved[index] - 1].used = false
+        }
+      }
+      else {
+        for(let index in moved) {
+          this.secretKey[moved[index] - 1].used = true
+        }
+      }
+      console.log(this.secretKey)
     },
     showInputSecretKey() {
       this.addSecretKeyState = !this.addSecretKeyState
@@ -104,16 +127,6 @@ export default {
     },
     deleteSecretKey() {
       console.log(this.usedSecretKey)
-    },
-    generateData() {
-      this.data = []
-      for (let i = 0; i < this.secretKey.length;i ++) {
-        this.data.push({
-          key: i + 1,
-          label: this.secretKey[i].toString(),
-          disabled: false
-        });
-      }
     },
   }
 }
