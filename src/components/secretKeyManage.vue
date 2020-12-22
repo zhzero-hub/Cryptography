@@ -1,8 +1,8 @@
 <template>
-  <div style="text-align: center">
-    <el-button class="transfer-footer" size="small" type="primary" @click="showInputSecretKey">添加</el-button>
-    <el-button class="transfer-footer" size="small" type="danger" @click="deleteSecretKey">删除</el-button>
-    <div class="inputSecretKey" slot="left-footer" v-show="addSecretKeyState">
+  <div>
+    <el-button class="transfer-footer" size="primary" type="primary" @click="showInputSecretKey">添加</el-button>
+    <el-button class="transfer-footer" size="primary" type="danger" @click="deleteSecretKey">删除</el-button>
+    <div class="inputSecretKey" v-show="addSecretKeyState" style="line-height: 70px">
       <el-input id="inputKey1"
                 placeholder="请输入内容"
                 v-model="inputSecretKey"
@@ -15,7 +15,7 @@
                    slot="suffix">确认</el-button>
       </el-input>
     </div>
-    <div>
+    <div style="text-align: center">
       <el-transfer class="secretKey"
                    style="text-align: left; display: inline-block"
                    v-model="value"
@@ -97,6 +97,10 @@ export default {
         }
       }
       console.log(this.secretKey)
+      this.secretKey.sort(function(a , b) {
+        return a.key - b.key
+      })
+      this.generateData()
     },
     showInputSecretKey() {
       this.addSecretKeyState = !this.addSecretKeyState
@@ -110,8 +114,11 @@ export default {
         this.$message.error('添加失败')
         return
       }
-      this.secretKey.push(BigInteger(this.inputSecretKey.toString()))
-      console.log(this.usedSecretKey)
+      this.secretKey.push({
+        key: BigInteger(this.inputSecretKey.toString()),
+        used: false
+      })
+      //console.log(this.usedSecretKey)
       this.data.push({
         key: this.data.length + 1,
         label: this.inputSecretKey.toString(),
@@ -136,8 +143,6 @@ export default {
 .el-input-group__prepend {
   border-right: 0;
   text-align: center;
-  padding: 10px;
-  color: red;
 }
 .el-transfer-panel__body {
   height: 300px;

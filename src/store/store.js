@@ -20,7 +20,7 @@ export default new Vuex.Store({
                     },
                     {
                         item: '展示',
-                        path: '/knapsack',
+                        path: '/primeManage',
                     }
                 ],
             },

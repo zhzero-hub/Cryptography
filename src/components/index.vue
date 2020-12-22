@@ -5,7 +5,7 @@
       <topHeader></topHeader>
     </el-header>
     <el-container>
-      <el-aside>
+      <el-aside style="width: 15%">
         <main-left></main-left>
       </el-aside>
       <el-container>
@@ -35,7 +35,7 @@ export default {
   },
   methods: {
     jumpKnapsack() {
-      this.$router.push({path: '/knapsack'})
+      this.$router.push({path: '/primeManage'})
     },
     jumpRabin() {
       this.$router.push({path: '/rabin'})
