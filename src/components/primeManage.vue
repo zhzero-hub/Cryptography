@@ -8,13 +8,13 @@
       <el-table-column
           prop="number"
           label="Key"
-          width="300"
+          width="200%"
           align="center">
       </el-table-column>
       <el-table-column
           prop="value"
           label="Value"
-          width="500"
+          width="400%"
           align="center">
       </el-table-column>
       <el-table-column
@@ -25,7 +25,7 @@
       <el-table-column
           fixed="right"
           label="操作"
-          width="150"
+          width="150%"
           align="center">
         <template slot-scope="scope">
           <el-button @click="handle(scope)" type="primary" size="small">编辑</el-button>

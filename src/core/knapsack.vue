@@ -17,7 +17,7 @@
         </div>
       </div>
     <div style="box-shadow: 0 2px 4px rgba(0, 0, 0, .12), 0 0 6px rgba(0, 0, 0, .04); padding: 20px">
-      <el-tabs @tab-click="handleClick" style="padding-bottom: 20px">
+      <el-tabs @tab-click="handleClick" v-model="activeTab" style="padding-bottom: 20px">
         <template v-for="(item , index) in knapsackItems">
           <el-tab-pane :label="item.title" :name="item.title" :key="index">{{ item.title }}</el-tab-pane>
         </template>
@@ -94,6 +94,7 @@ export default {
   },
   data() {
     return {
+      activeTab: '素数管理',
       options: [{
         value: 1,
         label: 'Raw json'
@@ -185,7 +186,7 @@ export default {
           kString: this.k.toString(),
           n: this.n,
           date: '',
-          type: "解密"
+          type: "加密"
         }
       }).then(res => {
         if(res.data.code === 200) {
@@ -214,6 +215,47 @@ export default {
           this.$message.error('解密失败')
         }
       }*/
+      let secretString = "["
+      let i = 0
+      for(;i < this.secretKey.length;i ++) {
+        if(this.secretKey[i].used) {
+          secretString += this.secretKey[i].key.toString()
+          break
+        }
+      }
+      for(i += 1;i < this.secretKey.length;i ++) {
+        if(this.secretKey[i].used) {
+          secretString += ", " + this.secretKey[i].key.toString()
+        }
+      }
+      secretString += "]"
+      console.log(Date.toLocaleString())
+      this.$axios({
+        url: 'knapsack/decrypt',
+        method: "post",
+        data: {
+          message: this.message,
+          publicKey: null,
+          secretKey: secretString,
+          tString: this.t.toString(),
+          kString: this.k.toString(),
+          n: this.n,
+          date: '',
+          type: "解密"
+        }
+      }).then(res => {
+        if(res.data.code === 200) {
+          this.returnData = res.data.data
+          console.log(this.returnData)
+          this.$message({
+            message: '更新成功',
+            type: 'success'
+          })
+        }
+        else {
+          this.$message.error('加密失败')
+        }
+      })
     }
   }
 }
