@@ -94,6 +94,7 @@ export default {
   },
   data() {
     return {
+      date: new Date(),
       activeTab: '素数管理',
       options: [{
         value: 1,
@@ -134,7 +135,7 @@ export default {
     ...mapMutations(['hello']),
     handle() {
       // eslint-disable-next-line no-unused-vars
-      console.log(process)
+      console.log(this.date.toLocaleDateString() + " " + this.date.toLocaleTimeString())
     },
     handleClick(tab) {
       //console.log(this.knapsackItems[tab.index])
@@ -174,7 +175,6 @@ export default {
         }
       }
       secretString += "]"
-      console.log(Date.toLocaleString())
       this.$axios({
         url: 'knapsack/encrypt',
         method: "post",
@@ -185,7 +185,7 @@ export default {
           tString: this.t.toString(),
           kString: this.k.toString(),
           n: this.n,
-          date: '',
+          date: this.date.toLocaleDateString(),
           type: "加密"
         }
       }).then(res => {
@@ -229,7 +229,6 @@ export default {
         }
       }
       secretString += "]"
-      console.log(Date.toLocaleString())
       this.$axios({
         url: 'knapsack/decrypt',
         method: "post",
@@ -240,7 +239,7 @@ export default {
           tString: this.t.toString(),
           kString: this.k.toString(),
           n: this.n,
-          date: '',
+          date: this.date.toLocaleDateString(),
           type: "解密"
         }
       }).then(res => {

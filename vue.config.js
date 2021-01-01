@@ -11,7 +11,7 @@ module.exports = {
         disableHostCheck: true,
         proxy: {
             '/api': {
-                target: 'http://zhzero.top:7077/api',
+                target: 'http://localhost:7077/api',
                 // 允许跨域
                 changeOrigin: true,
                 ws: true,
