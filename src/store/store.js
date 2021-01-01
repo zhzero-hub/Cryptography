@@ -11,33 +11,21 @@ export default new Vuex.Store({
         menu: [
             {
                 index: '1',
-                title: ' 背包密码体制',
+                title: '背包密码体制介绍',
                 icon: 'el-icon-shopping-bag-1',
-                content: [
-                    {
-                        item: '背包密码体制介绍',
-                        path: '/',
-                    },
-                    {
-                        item: '展示',
-                        path: '/primeManage',
-                    }
-                ],
+                path: '/introduction',
+            },
+            {
+                index: '2',
+                title: '加密解密展示',
+                icon: 'el-icon-shopping-bag-1',
+                path: '/primeManage',
             },
             {
                 index: '2',
                 title: ' Rabin密码体制',
                 icon: 'el-icon-position',
-                content: [
-                    {
-                        item: 'Rabin密码体制介绍',
-                        path: '/',
-                    },
-                    {
-                        item: '展示',
-                        path: '/rabin',
-                    }
-                ],
+                path: '/',
             },
         ],
         knapsackItems: [{

@@ -9,8 +9,7 @@ const router = new Router({
             path: '/',
             name: 'home', //主界面
             component: () => import('@/components/index'),
-            children: [
-                {
+            children: [{
                     path: '/knapsack',//背包密码体制
                     name: 'knapsack',
                     component: () => import('@/core/knapsack'),
@@ -18,22 +17,15 @@ const router = new Router({
                        path: '/primeManage',
                        name: 'primeManage',
                        component: () => import('@/components/primeManage')
-                    },
-                    {
-                        path: '/publicKeyManage',
-                        name: 'publicKeyManage',
-                        component: () => import('@/components/publicKeyManage')
-                    },
-                    {
+                    }, {
                         path: '/secretKeyManage',
                         name: 'secretKeyManage',
                         component: () => import('@/components/secretKeyManage')
-                        }]
-                },
-                {
-                    path: '/rabin',//rabin密码体制
-                    name: 'rabin',
-                    component: () => import('@/core/rabin')
+                    }],
+                }, {
+                    path: 'introduction',
+                    name: 'introduction',
+                    component: () => import('@/core/introduction')
                 }
             ]
         }

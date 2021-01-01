@@ -27,10 +27,6 @@ export default {
         console.log(this.active)
         this.index1 = data
       })
-      this.bus.$on('itemIndex' , (data) => {
-        this.content = this.active.content[data]
-        console.log(this.content)
-      })
     },
     goBack() {
       this.$router.go(-1)

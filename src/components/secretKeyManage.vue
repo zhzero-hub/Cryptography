@@ -1,21 +1,6 @@
 <template>
-  <div>
-    <el-button class="transfer-footer" size="primary" type="primary" @click="showInputSecretKey">添加</el-button>
-    <el-button class="transfer-footer" size="primary" type="danger" @click="deleteSecretKey">删除</el-button>
-    <div class="inputSecretKey" v-show="addSecretKeyState" style="line-height: 70px">
-      <el-input id="inputKey1"
-                placeholder="请输入内容"
-                v-model="inputSecretKey"
-                clearable>
-        <el-button class="transfer-footer-cancel" type="text" @click="cancelSecretKey"
-                   slot="prepend" >
-          <i class="el-icon-circle-close"></i>
-        </el-button>
-        <el-button class="transfer-footer-affirm" type="text" @click="addSecretKey"
-                   slot="suffix">确认</el-button>
-      </el-input>
-    </div>
-    <div style="text-align: center">
+  <div style="text-align: center">
+    <div>
       <el-transfer class="secretKey"
                    style="text-align: left; display: inline-block"
                    v-model="value"
@@ -29,6 +14,23 @@
                    :data="data">
         <span slot-scope="{ option }">密钥{{ option.key }}: {{ option.label }}</span>
       </el-transfer>
+    </div>
+    <div style="line-height: 50px">
+      <el-button class="transfer-footer" size="primary" type="primary" @click="showInputSecretKey">添加</el-button>
+      <el-button class="transfer-footer" size="primary" type="danger" @click="deleteSecretKey">删除</el-button>
+      <div class="inputSecretKey" v-show="addSecretKeyState" style="line-height: 70px">
+        <el-input id="inputKey1" size="large"
+                  placeholder="请输入内容"
+                  v-model="inputSecretKey"
+                  clearable>
+          <el-button class="transfer-footer-cancel" type="text" @click="cancelSecretKey"
+                     slot="prepend" size="large">
+            <i class="el-icon-circle-close"></i>
+          </el-button>
+          <el-button class="transfer-footer-affirm" type="text" @click="addSecretKey"
+                     slot="suffix">确认</el-button>
+        </el-input>
+      </div>
     </div>
   </div>
 </template>

@@ -41,7 +41,7 @@
         <el-form ref="form" :model="form" label-width="80px">
           <template v-if="this.tVisible">
             <el-form-item label="t">
-              <el-input v-model="form.t"></el-input>
+              <el-input v-model="form.t" placeholder=form.t></el-input>
             </el-form-item>
           </template>
           <template v-else-if="kVisible">
@@ -71,6 +71,7 @@ export default {
   name: "primeManage",
   data() {
     return {
+      rowIndex: 0,
       tableData: [],
       dialogVisible: false,
       tVisible: false,
@@ -132,6 +133,7 @@ export default {
     // eslint-disable-next-line no-unused-vars
     handle(row , column , event) {
       this.dialogVisible = true
+      this.rowIndex = row
       if(row.$index === 0) {
         this.kVisible = true
       }
@@ -144,11 +146,18 @@ export default {
     },
     close() {
       this.dialogVisible = this.tVisible = this.nVisible = this.kVisible = false
+      this.rowIndex = 0
     },
     submit() {
-      this.k = BigInteger(this.form.k.toString())
-      this.t = BigInteger(this.form.t.toString())
-      this.n = this.form.n
+      if(this.rowIndex.$index === 0) {
+        this.k = BigInteger(this.form.k.toString())
+      }
+      else if(this.rowIndex.$index === 1) {
+        this.t = BigInteger(this.form.t.toString())
+      }
+      else if(this.rowIndex.$index === 2) {
+        this.n = this.form.n
+      }
       this.getData()
       this.close()
     }

@@ -1,25 +1,21 @@
 <template>
   <div class="top-header">
     <el-menu
-        :default-active="activeIndex2"
         class="el-menu-demo"
         mode="horizontal"
-        @select="handleSelect"
+        @select="handleTitle"
         background-color="#545c64"
         text-color="#fff"
         active-text-color="#ffd04b">
       <el-menu-item style="color: rgb(255,208,75)" @click="setBarCollapse">背包密码体制/Rabin密码体制</el-menu-item>
-      <el-submenu v-for="(item,index) in menu" :index='item.index' :key="index">
+      <el-menu-item v-for="(item,index) in menu" :index='item.index' :key="index">
         <template slot="title">
           <div class="left-width">
             <i class="iconfont" :class="item.icon"></i>
             <span slot="title" class="title">{{item.title}}</span>
           </div>
         </template>
-        <el-menu-item-group v-for="(list,index1) in item.content" :key="index1">
-          <el-menu-item @click="handleTitle(item.index , index1)" :index="list.path" v-if="list.item != null" :key="index">{{list.item}}</el-menu-item>
-        </el-menu-item-group>
-      </el-submenu>
+      </el-menu-item>
     </el-menu>
   </div>
 </template>
@@ -30,20 +26,15 @@ export default {
   name: "header1",
   data() {
     return {
-      activeIndex: '1',
-      activeIndex2: '1'
+
     }
   },
   methods: {
     //左侧栏放大缩小
     ...mapMutations(['setBarCollapse']),
-    handleSelect(key, keyPath) {
-      console.log(key, keyPath);
-    },
-    handleTitle(index , index1) {
+    handleTitle(index) {
       this.bus.$emit('sendIndex',index)
-      this.bus.$emit('itemIndex',index1)
-      this.$router.push(this.menu[index - 1].content[index1].path)
+      this.$router.push(this.menu[index - 1].path)
     }
   },
   computed: {
@@ -65,6 +56,5 @@ export default {
   margin: 0;
   border-bottom: 2px solid transparent;
   color: #909399;
-  font-size: 20px;
 }
 </style>
