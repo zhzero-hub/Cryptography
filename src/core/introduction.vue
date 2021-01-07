@@ -1,6 +1,6 @@
 <template>
   <div>
-    <el-collapse v-model="activeNames" @change="handleChange">
+    <el-collapse v-model="activeNames" @change="handleChange" id="intro">
       <el-collapse-item title="背景 Background" name="1">
         <div>
           1976年，Diffie和Hellman提出了公钥密码学的思想。
@@ -103,7 +103,7 @@ export default {
 }
 .el-collapse-item__content {
   padding-bottom: 25px;
-  font-size: 18px;
+  font-size: 16px;
   color: #303133;
   line-height: 2.0;
 }

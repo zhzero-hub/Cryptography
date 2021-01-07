@@ -13,7 +13,6 @@
         <div class="button">
           <el-button @click="encode" type="primary">加密</el-button>
           <el-button @click="decode" type="primary">解密</el-button>
-          <el-button @click="handle" type="primary">测试</el-button>
         </div>
       </div>
     <div style="box-shadow: 0 2px 4px rgba(0, 0, 0, .12), 0 0 6px rgba(0, 0, 0, .04); padding: 20px">
@@ -87,6 +86,7 @@ import {
 import {mapState , mapMutations} from 'vuex'
 // eslint-disable-next-line no-unused-vars
 import axios from 'axios'
+
 
 export default {
   components: {
@@ -182,8 +182,8 @@ export default {
           message: this.message,
           publicKey: null,
           secretKey: secretString,
-          tString: this.t.toString(),
-          kString: this.k.toString(),
+          tString: this.t,
+          kString: this.k,
           n: this.n,
           date: this.date.toLocaleDateString(),
           type: "加密"
@@ -191,7 +191,6 @@ export default {
       }).then(res => {
         if(res.data.code === 200) {
           this.returnData = res.data.data
-          console.log(this.returnData)
           this.$message({
             message: '更新成功',
             type: 'success'

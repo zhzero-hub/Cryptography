@@ -25,10 +25,11 @@
       <el-table-column
           fixed="right"
           label="操作"
-          width="150%"
+          width="200%"
           align="center">
         <template slot-scope="scope">
           <el-button @click="handle(scope)" type="primary" size="small">编辑</el-button>
+          <el-button @click="handleRandom(scope)" type="primary" size="small">随机数</el-button>
         </template>
       </el-table-column>
     </el-table>
@@ -41,7 +42,7 @@
         <el-form ref="form" :model="form" label-width="80px">
           <template v-if="this.tVisible">
             <el-form-item label="t">
-              <el-input v-model="form.t" placeholder=form.t></el-input>
+              <el-input v-model="form.t"></el-input>
             </el-form-item>
           </template>
           <template v-else-if="kVisible">
@@ -61,11 +62,26 @@
         <el-button type="primary" @click="submit()">确 定</el-button>
       </span>
     </el-dialog>
+    <el-dialog
+        title="数值管理"
+        :visible.sync="this.randomVisible"
+        width="30%">
+      <section class="prime">
+        <el-form label-width="80px">
+          <el-form-item label="比特位">
+            <el-input v-model="inputLength"></el-input>
+          </el-form-item>
+        </el-form>
+      </section>
+      <span slot="footer" class="dialog-footer">
+        <el-button @click="close">取 消</el-button>
+        <el-button type="primary" @click="primeGen">确 定</el-button>
+      </span>
+    </el-dialog>
   </div>
 </template>
 
 <script>
-const BigInteger = require('biginteger').BigInteger;
 
 export default {
   name: "primeManage",
@@ -77,6 +93,8 @@ export default {
       tVisible: false,
       kVisible: false,
       nVisible: false,
+      randomVisible: false,
+      inputLength: 100,
       form: {
         k: '',
         t: '',
@@ -118,11 +136,11 @@ export default {
       this.tableData = []
       this.tableData.push({
         number: 'k',
-        value: this.k.toString(),
+        value: this.k,
         description: '背包密码体制中，素数 k 的值'
       }, {
         number: 't',
-        value: this.t.toString(),
+        value: this.t,
         description: '背包密码体制中，素数 t 的值'
       }, {
         number: 'n',
@@ -144,16 +162,52 @@ export default {
         this.nVisible = true
       }
     },
+    handleRandom(row) {
+      this.randomVisible = true
+      this.rowIndex = row
+    },
+    primeGen() {
+      this.$axios({
+        url: `/knapsack/getPrimeNumber`,
+        method: "get",
+        params: {
+          length: this.inputLength
+        }
+      }).then( res => {
+        if(res.data.code === 200) {
+          if(this.rowIndex.$index === 0) {
+            this.k = res.data.data
+          }
+          else if(this.rowIndex.$index === 1) {
+            this.t = res.data.data
+          }
+          else if(this.rowIndex.$index === 2) {
+            if(res.data.data.length > 8) {
+              this.n = 100
+            }
+            else {
+              this.n = res.data.data
+            }
+          }
+        }
+        else {
+          this.$message.error("生成失败")
+        }
+        this.getData()
+        this.close()
+      })
+    },
     close() {
       this.dialogVisible = this.tVisible = this.nVisible = this.kVisible = false
+      this.randomVisible = false
       this.rowIndex = 0
     },
     submit() {
       if(this.rowIndex.$index === 0) {
-        this.k = BigInteger(this.form.k.toString())
+        this.k = this.form.k.toString()
       }
       else if(this.rowIndex.$index === 1) {
-        this.t = BigInteger(this.form.t.toString())
+        this.t = this.form.t.toString()
       }
       else if(this.rowIndex.$index === 2) {
         this.n = this.form.n

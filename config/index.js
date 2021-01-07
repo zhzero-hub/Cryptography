@@ -3,6 +3,7 @@
 // see http://vuejs-templates.github.io/webpack for documentation.
 
 const path = require('path')
+const fs = require('fs')
 
 module.exports = {
     dev: {
@@ -42,6 +43,10 @@ module.exports = {
         cacheBusting: true,
 
         cssSourceMap: true,
+        /*https: {
+            key:  fs.readFileSync('/etc/nginx/conf.d/cert/4707946_zhzero.top.key'),
+            cert: fs.readFileSync('/etc/nginx/conf.d/cert/4707946_zhzero.top.pem')
+        }*/
     },
 
     build: {

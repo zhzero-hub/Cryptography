@@ -5,7 +5,7 @@
       <topHeader></topHeader>
     </el-header>
     <el-container>
-      <el-aside style="width: 15%">
+      <el-aside style="width: 12%">
         <main-left></main-left>
       </el-aside>
       <el-container>
@@ -14,7 +14,6 @@
           <router-view></router-view>
         </el-main>
         <el-footer>
-
         </el-footer>
       </el-container>
     </el-container>

@@ -26,7 +26,11 @@ const router = new Router({
                     path: 'introduction',
                     name: 'introduction',
                     component: () => import('@/core/introduction')
-                }
+                }, {
+                path: 'analysis',
+                name: 'analysis',
+                component: () => import('@/core/analysis')
+            }
             ]
         }
     ]
