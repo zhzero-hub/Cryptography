@@ -110,7 +110,8 @@ export default new Vuex.Store({
         t: "43",
         n: 2,
         encodedMessage: '',
-        decodedMessage: ''
+        decodedMessage: '',
+        crackedMessage: '',
     },
     mutations: {
         setBarCollapse(state) {

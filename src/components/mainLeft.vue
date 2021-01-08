@@ -7,7 +7,7 @@
       <el-collapse-item :title="handleTitle(history.date)" :name="index">
         <template v-for="(item , index1) in history.historys">
           <div :key="index1" style="line-height: 40px; text-align: center">
-            <div style="float: left; font-size: 16px; font-weight: 500">
+            <div style="display: inline; font-size: 16px; font-weight: 500">
               {{ item.type }} —— {{ item.id }}
             </div>
             <div style="float: right">

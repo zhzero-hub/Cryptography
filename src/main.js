@@ -15,7 +15,7 @@ Vue.config.productionTip = false
 Vue.prototype.bus = new Vue()
 /* global BigInt */
 axios.defaults.timeout = 5000 // 请求超时
-axios.defaults.baseURL = 'http://zhzero.top:7077/api/'
+axios.defaults.baseURL = 'https://zhzero.top:7077/api/'
 Vue.prototype.$axios = axios
 
 new Vue({

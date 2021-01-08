@@ -1,5 +1,6 @@
 // eslint-disable-next-line no-unused-vars
 const path = require('path')
+const fs = require('fs')
 
 module.exports = {
     outputDir: 'dist',
@@ -20,5 +21,9 @@ module.exports = {
                 }
             }
         },
+        /*https: {
+            key:  fs.readFileSync('/etc/nginx/conf.d/cert/4707946_zhzero.top.key'),
+            cert: fs.readFileSync('/etc/nginx/conf.d/cert/4707946_zhzero.top.pem')
+        }*/
     }
 }

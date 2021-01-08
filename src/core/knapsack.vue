@@ -13,6 +13,7 @@
         <div class="button">
           <el-button @click="encode" type="primary">加密</el-button>
           <el-button @click="decode" type="primary">解密</el-button>
+          <el-button @click="crack" type="primary">破译</el-button>
         </div>
       </div>
     <div style="box-shadow: 0 2px 4px rgba(0, 0, 0, .12), 0 0 6px rgba(0, 0, 0, .04); padding: 20px">
@@ -73,6 +74,27 @@
             </div>
           </div>
         </el-tab-pane>
+        <el-tab-pane label="攻击结果">
+          <div style="line-height: 50px">
+            <div v-if="this.crackedKey.length !== 0">
+              <div>
+                已知公钥：{{ this.public1 }}
+              </div>
+              <div>
+                破译私钥：{{ this.crackedKey }}
+              </div>
+              <div>
+                实际使用私钥：{{ this.secret1 }}
+              </div>
+              <div>
+                加密密文：{{ this.encodedMessage1 }}
+              </div>
+              <div>
+                破译密文：{{ this.crackedMessage }}
+              </div>
+            </div>
+          </div>
+        </el-tab-pane>
       </el-tabs>
     </div>
   </div>
@@ -86,7 +108,8 @@ import {
 import {mapState , mapMutations} from 'vuex'
 // eslint-disable-next-line no-unused-vars
 import axios from 'axios'
-
+// eslint-disable-next-line no-unused-vars
+const BigInteger = require('biginteger').BigInteger;
 
 export default {
   components: {
@@ -109,7 +132,13 @@ export default {
       decoder: '',
       encoder: '',
       crackBaseDecoder: null,
-      returnData: []
+      returnData: [],
+
+      public1: [],
+      secret1: [],
+      encodedMessage1: '',
+      crackedKey: [],
+      crackedMessage: '',
     }
   },
   computed: {
@@ -129,7 +158,7 @@ export default {
       set(val) {
         this.$store.state.decodedMessage = val
       }
-    }
+    },
   },
   methods: {
     ...mapMutations(['hello']),
@@ -254,6 +283,69 @@ export default {
           this.$message.error('加密失败')
         }
       })
+    },
+    publicKeyGen() {
+      let secretString = "["
+      let i = 0
+      for(;i < this.secretKey.length;i ++) {
+        if(this.secretKey[i].used) {
+          secretString += this.secretKey[i].key.toString()
+          break
+        }
+      }
+      for(i += 1;i < this.secretKey.length;i ++) {
+        if(this.secretKey[i].used) {
+          secretString += ", " + this.secretKey[i].key.toString()
+        }
+      }
+      secretString += "]"
+      this.$axios({
+        url: `knapsack/getPublicKey`,
+        method: "post",
+        data: {
+          message: this.message,
+          publicKey: null,
+          secretKey: secretString,
+          tString: this.t.toString(),
+          kString: this.k.toString(),
+          n: this.n,
+          date: this.date.toLocaleDateString(),
+          type: "破译"
+        }
+      }).then( res => {
+        if(res.data.code === 200) {
+          this.public1 = res.data.data
+        }
+        else {
+          this.$message.error("公钥生成失败")
+        }
+      })
+    },
+    crack() {
+      this.publicKeyGen()
+      for(let i = 0;i < this.secretKey.length / 2;i ++) {
+        // eslint-disable-next-line no-undef
+        this.secret1.push(BigInt(this.secretKey[i].key.toString()))
+      }
+
+      // eslint-disable-next-line no-undef
+      const originalDecoder = Decoder.from({ secretKey: this.secret1 , secretPair: { q: BigInt(this.k), r: BigInt(this.t) }});
+      const encoder = new Encoder(originalDecoder.publicKey);
+      const cracker = new Cracker();
+      const secretInfo = cracker.crack(originalDecoder.publicKey);
+      const crackBaseDecoder = Decoder.from(secretInfo);
+      const encodedMessage = encoder.encode(this.message);
+
+      this.crackedMessage = crackBaseDecoder.decode(encodedMessage);
+      this.crackedKey = secretInfo.secretKey
+      this.encodedMessage1 = encodedMessage
+
+      if(this.crackedKey.length !== 0) {
+        this.$message.success("破译成功")
+      }
+      else {
+        this.$message.error("破译失败")
+      }
     }
   }
 }
