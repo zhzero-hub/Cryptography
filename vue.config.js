@@ -21,9 +21,9 @@ module.exports = {
                 }
             }
         },
-        /*https: {
+        https: {
             key:  fs.readFileSync('/etc/nginx/conf.d/cert/4707946_zhzero.top.key'),
             cert: fs.readFileSync('/etc/nginx/conf.d/cert/4707946_zhzero.top.pem')
-        }*/
+        }
     }
 }

@@ -147,10 +147,10 @@ export default {
   text-align: center;
 }
 .el-transfer-panel__body {
-  height: 300px;
+  height: 500px;
 }
 .el-transfer-panel__list.is-filterable {
-  height: 250px;
+  height: 450px;
   padding-top: 0;
 }
 .el-transfer-panel .el-transfer-panel__footer {
@@ -165,5 +165,17 @@ export default {
   width: 100%;
   z-index: 1;
   text-align: center;
+}
+.el-transfer-panel {
+    border: 1px solid #EBEEF5;
+    border-radius: 4px;
+    overflow: hidden;
+    background: #FFF;
+    display: inline-block;
+    vertical-align: middle;
+    width: 300px;
+    max-height: 100%;
+    box-sizing: border-box;
+    position: relative;
 }
 </style>
